@@ -1,9 +1,9 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const {body, validationResult, check} = require('express-validator');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const flash = require('connect-flash');
+// const cookieParser = require('cookie-parser');
+// const session = require('express-session');
+// const flash = require('connect-flash');
 const app = express()
 const port = 3000;
 
@@ -22,14 +22,14 @@ app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
 
 // konfigurasi flash
-app.use(cookieParser('secret'));
-app.use(session({
-    cookie: { maxAge: 6000 },
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-}))
-app.use(flash());
+// app.use(cookieParser('secret'));
+// app.use(session({
+    // cookie: { maxAge: 6000 },
+    // secret: 'secret',
+    // resave: true,
+    // saveUninitialized: true
+// }))
+// app.use(flash());
 
 // Halaman Home
 app.get('/', (req, res) => {
@@ -46,19 +46,19 @@ app.get('/contact', async (req, res) => {
     const contacts = await Contact.find();
 
     // res.send(contact);
-    res.render('contact', { layout : 'layouts/main-layout', contacts, msg: req.flash('msg') , active : {home: '', contact: 'active'}});
+    res.render('contact', { layout : 'layouts/main-layout', contacts, msg: false , active : {home: '', contact: 'active'}});
 });
 
 // Halaman Tambah
 app.get('/contact/add', (req,res) => {
-    res.render('add-contact', {layout: 'layouts/main-layout', msg : req.flash('msg')})
+    res.render('add-contact', {layout: 'layouts/main-layout', msg : false})
 })
 
 // Halaman Detail
 app.get('/contact/:nama', async (req, res) => {
     const contact = await Contact.findOne({nama: req.params.nama});
     // res.send(contact)
-    res.render('detail', {layout: 'layouts/main-layout', contact, msg : req.flash('msg')})
+    res.render('detail', {layout: 'layouts/main-layout', contact, msg : false})
 });
 
 // Halaman proses data Tambah kontak
@@ -126,7 +126,7 @@ app.post('/contact/update',
                 }
         }).then( result => {
             console.log(result);
-            req.flash('msg', 'data berhasil diubah')
+            // req.flash('msg', 'data berhasil diubah')
             res.redirect('/contact')
         })
     })
