@@ -141,6 +141,6 @@ app.get('/contact/delete/:nama', async (req,res) => {
     res.send(req.params.nama)
 })
 
-app.listen(port, () => {
+app.listen( process.env.PORT || 3000, () => {
     console.log(`Mongo Contact App Listening at http://localhost:${port}`);
 })
